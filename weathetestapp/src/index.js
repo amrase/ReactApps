@@ -1,16 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import SeasonDisplay from './SeasonDisplay'
-
+import Spinner from './Spinner'
 class App extends React.Component {
 
-    constructor(props){
-        super(props)
-        this.state = {
+
+    state = {
             lat: null,
             long: null,
             errorMessage : ''
-        };
+    };
+    
+    
+    componentDidMount(){
         window.navigator.geolocation.getCurrentPosition(
             (position)=>{
                 this.setState({
@@ -22,17 +24,8 @@ class App extends React.Component {
             err => this.setState({
                 errorMessage : err.message
             })
-        )
+        );
     }
-
-    componentDidMount(){
-        console.log('mount');
-    }
-
-    componentDidUpdate(){
-        console.log('update');
-    }
-    
 
     render(){ 
                
@@ -43,11 +36,13 @@ class App extends React.Component {
                 
                 //No errorMessage we have latitude and longitude
                 if(!this.state.errorMessage && this.state.lat){
-                    return <div>Latitude :{this.state.lat}</div>
+                    return <SeasonDisplay lat={this.state.lat}/>
                 }
 
                 //Waiting for data
-                return <div>Loading!</div>
+                return  <Spinner />
+            
+              
          
     }
 }
