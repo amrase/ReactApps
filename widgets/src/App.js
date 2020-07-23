@@ -1,5 +1,6 @@
 import React from 'react'
 import Accordion from './components/Accordion'
+import Search from './components/Search'
 
 
 const items = [
@@ -17,8 +18,13 @@ const items = [
     }
 ]
 
+const onFormSubmit = (term) =>{
+    console.log('App',term);
+}
+
 export default () =>{
     return <div className="ui container" style={{marginTop:"10px"}}>
+        <Search onSubmit={onFormSubmit}/>
         <Accordion  items={items}/>
     </div>
 }
