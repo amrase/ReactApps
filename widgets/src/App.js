@@ -19,13 +19,14 @@ const items = [
 ]
 
 const onFormSubmit = (term) =>{
+
     console.log('App',term);
 }
 
 export default () =>{
     return <div className="ui container" style={{marginTop:"10px"}}>
         <Search onSubmit={onFormSubmit}/>
-        <Accordion  items={items}/>
+   
     </div>
 }
 

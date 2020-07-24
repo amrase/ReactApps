@@ -1,12 +1,16 @@
 import React,{useState, useEffect} from 'react'
 import axios from 'axios'
+import apiConfig from '../config'
 
 const Search = ({onSubmit}) =>{
-    const [term,setTerm] = useState('')
+    const [term,setTerm] = useState('programming')
+    const [results,setResults] = useState([])
+
+    console.log(results);
 
     useEffect(()=>{
         const search = async () =>{
-            await axios.get('https://en.wikipedia.org/w/api.php',{
+            const {data} = await axios.get(apiConfig.URL,{
                 params:{
                     action : 'query',
                     list :'search',
@@ -15,13 +19,23 @@ const Search = ({onSubmit}) =>{
                     srsearch : term
                 }
             })
+            setResults(data.query.search);
         };
-
-        console.log(search);
-
+     
         search();
-
     },[term])
+
+
+    const renderResults = results.map((result=>{
+        return <div className="item" key={result.pageid}>
+            <div className="content">
+                <div className="header">
+                    {result.title}
+                </div>
+                <span dangerouslySetInnerHTML={{__html: result.snippet}}></span> 
+            </div>
+        </div>
+    }))
 
 
     return <div className="ui segment">
@@ -32,6 +46,10 @@ const Search = ({onSubmit}) =>{
                 placeholder="Search"
                 onChange={e=> setTerm(e.target.value)}
                 />
+
+        </div>
+        <div className="ui celled list">
+            {renderResults}
         </div>
     </div>
 
